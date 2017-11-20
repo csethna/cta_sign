@@ -6,7 +6,7 @@ Build a "transit tracker" app that runs on Raspberry Pi and outputs to an LED ma
 2. Current weather conditions.
 3. Upcoming Google Calendar appointments.
 
-Tools needed:
+### Tools needed:
 - [] CTA Train Tracker API
 - [] Some weather service API (DarkSky, NWS, Open Weather Map, TBD)
 - [] Google Calendar OAuth
