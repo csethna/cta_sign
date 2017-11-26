@@ -4,7 +4,7 @@ from collections import OrderedDict
 from credentials import *
 from math import radians, cos, sin, asin, sqrt
 
-#BUS_LOOKUP = 'http://www.ctabustracker.com/bustime/api/v2/getpredictions'
+BUS_PREDICTIONS = 'http://www.ctabustracker.com/bustime/api/v2/getpredictions'
 BUS_LOOKUP = 'http://www.ctabustracker.com/bustime/api/v2/getstops'
 
 ## Return next busses for the stop by my house.
@@ -63,7 +63,7 @@ def haversine(lon1, lat1, lon2, lat2):
 
 # Create stop distance list
 distance = {}
-# Print bus stop name & coordinates for southbound 22
+# Print bus stop name & coordinates for closest 22 (either direction)
 southbound_stops = json.loads(r_south.text)
 for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
@@ -73,4 +73,7 @@ for bustime, stops in southbound_stops.items():
 			distance[key] = value
 # sort distances
 sorted_distance = OrderedDict(sorted(distance.items()))
-print(sorted_distance)
+closest = list(sorted_distance.values())[0]
+# make a call to request the upcoming busses for the closest stop
+south_22 = requests.get(BUS_PREDICTIONS, params={'key' : CTA_BUS, 'stpid' : closest[0], 'format' : 'json'})
+print(south_22.text)
