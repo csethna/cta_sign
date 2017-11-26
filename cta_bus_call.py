@@ -1,6 +1,7 @@
 import requests
 import json
 from credentials import *
+from math import radians, cos, sin, asin, sqrt
 
 #BUS_LOOKUP = 'http://www.ctabustracker.com/bustime/api/v2/getpredictions'
 BUS_LOOKUP = 'http://www.ctabustracker.com/bustime/api/v2/getstops'
@@ -40,12 +41,31 @@ r_north = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' :
 IP_url = 'http://freegeoip.net/json/'
 response = requests.get(IP_url)
 user_location = json.loads(response.text)
+user_latitude = str(user_location['latitude'])
+user_longitude = str(user_location['longitude'])
 #print(",".join((str(response["latitude"]), str(response["longitude"]))))
 
+# Haversine Formula Implementation to calculate distance
+def haversine(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 3956 # Radius of earth in miles. Use 6371 for kilometers.
+    return c * r
 
 # Print bus stop name & coordinates for southbound 22
 southbound_stops = json.loads(r_south.text)
 for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
 		for values in info:
-			print(values['stpnm'], ': ', values['lat'], values['lon'])
+			print(haversine(values['lon'], values['lat'], user_longitude, user_latitude))
+#			print(values['stpnm'], ': ', values['lat'], values['lon'])
