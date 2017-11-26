@@ -1,6 +1,6 @@
 import requests
 import json
-import collections
+from collections import OrderedDict
 from credentials import *
 from math import radians, cos, sin, asin, sqrt
 
@@ -72,5 +72,5 @@ for bustime, stops in southbound_stops.items():
 			value = [values['stpid'], values['stpnm']]
 			distance[key] = value
 # sort distances
-sorted_distance = collections.OrderedDict(sorted(distance.items()))
+sorted_distance = OrderedDict(sorted(distance.items()))
 print(sorted_distance)
