@@ -60,10 +60,12 @@ def haversine(lon1, lat1, lon2, lat2):
     r = 3956 # Radius of earth in miles. Use 6371 for kilometers.
     return c * r
 
+# Create stop distance list
+distance = []
 # Print bus stop name & coordinates for southbound 22
 southbound_stops = json.loads(r_south.text)
 for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
 		for values in info:
-			print(haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude']))
+			distance.append(haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude']))
 #			print(values['stpnm'], ': ', values['lat'], values['lon'])
