@@ -27,20 +27,25 @@ north_22 = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'stpid' : '1935', '
 #print(north_22.url)
 
 ## Return list of all stops on the 22 line
-r_south = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' : 'Southbound', 'format' : 'json'}).json()
-r_south = json.loads(r_south)
+r_south = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' : 'Southbound', 'format' : 'json'})
 r_north = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' : 'Northbound', 'format' : 'json'})
-#r_north = json.dumps(r_north)
 
 ## Printing
-#print(r_south)
-print(r_south)
+#print(r_south.text)
 #print(r_south.url)
 #print(r_north.text)
 #print(r_north.url)
 
-# # Automatically geolocate the connecting IP
-# IP_url = 'http://freegeoip.net/json/'
-# response = requests.get(IP_url)
-# response = json.loads(response.text)
-# print(",".join((str(response["latitude"]), str(response["longitude"]))))
+# Automatically geolocate the connecting IP
+IP_url = 'http://freegeoip.net/json/'
+response = requests.get(IP_url)
+response = json.loads(response.text)
+#print(",".join((str(response["latitude"]), str(response["longitude"]))))
+
+
+#print(r_south.text)
+dict = json.loads(r_south.text)
+for bustime, stops in dict.items():
+	for stop, info in stops.items():
+		for values in info:
+			print(values['stpnm'], ': ', values['lat'], values['lon'])
