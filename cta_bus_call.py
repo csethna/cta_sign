@@ -64,8 +64,8 @@ def haversine(lon1, lat1, lon2, lat2):
 # Create stop distance list
 distance = {}
 # Print bus stop name & coordinates for closest 22 (either direction)
-southbound_stops = json.loads(r_south.text)
-for bustime, stops in southbound_stops.items():
+nearest_stops = json.loads(r_south.text)
+for bustime, stops in nearest_stops.items():
 	for stop, info in stops.items():
 		for values in info:
 			key = haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude'])
@@ -75,5 +75,12 @@ for bustime, stops in southbound_stops.items():
 sorted_distance = OrderedDict(sorted(distance.items()))
 closest = list(sorted_distance.values())[0]
 # make a call to request the upcoming busses for the closest stop
-south_22 = requests.get(BUS_PREDICTIONS, params={'key' : CTA_BUS, 'stpid' : closest[0], 'format' : 'json'})
-print(south_22.text)
+nearest_22 = requests.get(BUS_PREDICTIONS, params={'key' : CTA_BUS, 'stpid' : closest[0], 'format' : 'json'})
+nearest_22 = json.loads(nearest_22.text)
+#print(nearest_22)
+for bustime, prd in nearest_22.items():
+    for prd, info in prd.items():
+        for data in info:
+            destination = data['des']
+            prediction = data['prdctdn']
+print("Next Bus: ", destination, "|", prediction, "mins")
