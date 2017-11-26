@@ -41,8 +41,6 @@ r_north = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' :
 IP_url = 'http://freegeoip.net/json/'
 response = requests.get(IP_url)
 user_location = json.loads(response.text)
-user_latitude = str(user_location['latitude'])
-user_longitude = str(user_location['longitude'])
 #print(",".join((str(response["latitude"]), str(response["longitude"]))))
 
 # Haversine Formula Implementation to calculate distance
@@ -67,5 +65,5 @@ southbound_stops = json.loads(r_south.text)
 for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
 		for values in info:
-			print(haversine(values['lon'], values['lat'], user_longitude, user_latitude))
+			print(haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude']))
 #			print(values['stpnm'], ': ', values['lat'], values['lon'])
