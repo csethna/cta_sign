@@ -68,4 +68,5 @@ for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
 		for values in info:
 			distance.append(haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude']))
-#			print(values['stpnm'], ': ', values['lat'], values['lon'])
+distance.sort()
+print(distance)
