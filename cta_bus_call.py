@@ -61,12 +61,15 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r
 
 # Create stop distance list
-distance = []
+distance = {}
 # Print bus stop name & coordinates for southbound 22
 southbound_stops = json.loads(r_south.text)
 for bustime, stops in southbound_stops.items():
 	for stop, info in stops.items():
 		for values in info:
-			distance.append(haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude']))
-distance.sort()
+			key = haversine(values['lon'], values['lat'], user_location['longitude'], user_location['latitude'])
+			value = [values['stpid'], values['stpnm']]
+			distance[key] = value
+# sort distances
+distance.sort(key)
 print(distance)
