@@ -39,7 +39,7 @@ r_north = requests.get(BUS_LOOKUP, params={'key' : CTA_BUS, 'rt' : '22', 'dir' :
 # Automatically geolocate the connecting IP
 IP_url = 'http://freegeoip.net/json/'
 response = requests.get(IP_url)
-response = json.loads(response.text)
+user_location = json.loads(response.text)
 #print(",".join((str(response["latitude"]), str(response["longitude"]))))
 
 
