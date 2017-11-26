@@ -43,7 +43,7 @@ response = json.loads(response.text)
 #print(",".join((str(response["latitude"]), str(response["longitude"]))))
 
 
-#print(r_south.text)
+# Print bus stop name & coordinates for southbound 22
 dict = json.loads(r_south.text)
 for bustime, stops in dict.items():
 	for stop, info in stops.items():
