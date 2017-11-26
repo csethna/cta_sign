@@ -1,5 +1,6 @@
 # CTA Transit Tracker
 ## A project to make an LED sign with Python
+[example of objective](https://www.raspberrypi.org/app/uploads/2017/07/Wall-Big_01-500x291.jpg)
 ### Objective:
 Build a "transit tracker" app that runs on Raspberry Pi and outputs to an LED matrix to display:
 1. Next incoming train times for a specific station.
